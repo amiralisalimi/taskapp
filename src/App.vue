@@ -50,7 +50,7 @@ const isLoggedIn = () => {
 </script>
 
 <template>
-  <div v-if="isLoggedIn">
+  <div v-if="isLoggedIn" :class="backgroundImage" >
     <div v-if="payload" class="flex h-screen flex-col p-4">
       <div class="flex justify-between rounded-lg text-white">
         <div>
@@ -97,6 +97,29 @@ const isLoggedIn = () => {
             <GithubIcon height="30px" />
           </div> -->
         </div>
+        <div>
+          <button @click="showPopup = !showPopup">Background Image</button>
+          <div class="popup" v-if="showPopup">
+            <ul>
+              <li> 
+                <button @click="back1">Background 1</button>
+              </li>
+              <li> 
+                <button @click="back2">Background 2</button>
+              </li>
+              <li> 
+                <button @click="back3">Background 3</button>
+              </li>
+              <li> 
+                <button @click="back4">Background 4</button>
+              </li>
+              <li> 
+                <button @click="back5">Background 5</button>
+              </li>
+            </ul>
+            <button @click="showPopup = false">Close Pop-up</button>
+          </div>
+        </div>
       </div>
       <KanbanBoard
         :payload="payload"
@@ -111,3 +134,31 @@ const isLoggedIn = () => {
     />
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        backgroundImage: "first",
+        showPopup: false
+      };
+    },
+    methods: {
+      back1() {
+        this.backgroundImage = "first"
+      },
+      back2() {
+        this.backgroundImage = "second"
+      },
+      back3() {
+        this.backgroundImage = "third"
+      },
+      back4() {
+        this.backgroundImage = "forth"
+      },
+      back5() {
+        this.backgroundImage = "fifth"
+      }
+    }
+  };
+</script>
