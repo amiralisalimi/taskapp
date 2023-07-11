@@ -1,0 +1,34 @@
+{
+  "title": "Task Management Board",
+  "last_modified": "Tue 11 Jul 2023 09:50",
+  "containers": [
+    {
+      "id": 1,
+      "name": "Introduction",
+      "is_editing_container": false,
+      "is_adding_card": false
+    },
+    {
+      "id": 2,
+      "name": "Todo",
+      "is_editing_container": false,
+      "is_adding_card": false
+    }
+  ],
+  "cards": [
+    {
+      "id": 1,
+      "id_container": 1,
+      "title": "Web Project",
+      "content": "Stack: Vue.js, Tailwind.css",
+      "is_editing_card": false
+    },
+    {
+      "id": 2,
+      "id_container": 1,
+      "title": "About Project",
+      "content": "This is a task management project",
+      "is_editing_card": false
+    }
+  ]
+}
