@@ -90,6 +90,52 @@ const logout = () => {
         <div class="mt-px flex place-items-start justify-center">
           <Dropdown />
         </div>
+        <div>
+          <button @click="showPopup = !showPopup">Background Image</button>
+          <div class="popup" v-if="showPopup">
+            <ul>
+              <li> 
+                <button @click="back1">Background 1</button>
+              </li>
+              <li> 
+                <button @click="back2">Background 2</button>
+              </li>
+              <li> 
+                <button @click="back3">Background 3</button>
+              </li>
+              <li> 
+                <button @click="back4">Background 4</button>
+              </li>
+              <li> 
+                <button @click="back5">Background 5</button>
+              </li>
+            </ul>
+            <button @click="showPopup = false">Close Pop-up</button>
+          </div>
+        </div>
+        <div>
+          <button @click="showPopup = !showPopup">Background Image</button>
+          <div class="popup" v-if="showPopup">
+            <ul>
+              <li> 
+                <button @click="back1">Background 1</button>
+              </li>
+              <li> 
+                <button @click="back2">Background 2</button>
+              </li>
+              <li> 
+                <button @click="back3">Background 3</button>
+              </li>
+              <li> 
+                <button @click="back4">Background 4</button>
+              </li>
+              <li> 
+                <button @click="back5">Background 5</button>
+              </li>
+            </ul>
+            <button @click="showPopup = false">Close Pop-up</button>
+          </div>
+        </div>
       </div>
       <KanbanBoard :payload="payload" @addContainer="displayContainerModal = true" />
     </div>
@@ -101,3 +147,31 @@ const logout = () => {
     <Login />
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        backgroundImage: "first",
+        showPopup: false
+      };
+    },
+    methods: {
+      back1() {
+        this.backgroundImage = "first"
+      },
+      back2() {
+        this.backgroundImage = "second"
+      },
+      back3() {
+        this.backgroundImage = "third"
+      },
+      back4() {
+        this.backgroundImage = "forth"
+      },
+      back5() {
+        this.backgroundImage = "fifth"
+      }
+    }
+  };
+</script>
