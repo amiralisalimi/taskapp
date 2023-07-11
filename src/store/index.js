@@ -16,6 +16,10 @@ const taskmanStore = createStore({
       state.isAuthenticated = true;
       state.user = user;
     },
+    signup(state, user) {
+      state.isAuthenticated = true;
+      state.user = user;
+    },
     logout(state) {
       state.isAuthenticated = false;
       state.user = null;
@@ -26,6 +30,9 @@ const taskmanStore = createStore({
       // Call authentication API here
       // If successful, commit the login mutation
       commit('login', { username });
+    },
+    signup({ commit }, { username, email, password }) {
+      commit('signup', { username, email, password });
     },
     logout({ commit }) {
       // Call logout API here
