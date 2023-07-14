@@ -12,12 +12,12 @@ const getters = {
 
 const actions = {
   settaskman({ commit }, data) {
-    commit('SET_taskman', data)
+    commit('SET_TASKMAN', data)
   }
 }
 
 const mutations = {
-  SET_taskman(state, data) {
+  SET_TASKMAN(state, data) {
     state.taskman = data
   }
 }

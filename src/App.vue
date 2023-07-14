@@ -6,7 +6,6 @@ import KanbanBoard from './components/kanban/KanbanBoard.vue'
 import ContainerModal from '@/components/modals/ContainerModal.vue'
 import CloseIcon from '@/components/icons/CloseIcon.vue'
 import SaveIcon from '@/components/icons/SaveIcon.vue'
-import GithubIcon from '@/components/icons/GithubIcon.vue'
 import Login from '@/components/user/Login.vue'
 import Button from '@/components/base/Button.vue'
 import Dropdown from '@/components/user/Dropdown.vue'
@@ -45,9 +44,6 @@ const handleEditTitle = (type) => {
     payload.value.title = state.temp_title
   }
 }
-// const openRepo = () => {
-//   window.open('https://github.com/kurnyaannn/taskman', '_blank')
-// }
 const isLoggedIn = () => {
   return store.getters.isAuthenticated
 }
@@ -90,88 +86,12 @@ const logout = () => {
         <div class="mt-px flex place-items-start justify-center">
           <Dropdown />
         </div>
-        <div>
-          <button @click="showPopup = !showPopup">Background Image</button>
-          <div class="popup" v-if="showPopup">
-            <ul>
-              <li> 
-                <button @click="back1">Background 1</button>
-              </li>
-              <li> 
-                <button @click="back2">Background 2</button>
-              </li>
-              <li> 
-                <button @click="back3">Background 3</button>
-              </li>
-              <li> 
-                <button @click="back4">Background 4</button>
-              </li>
-              <li> 
-                <button @click="back5">Background 5</button>
-              </li>
-            </ul>
-            <button @click="showPopup = false">Close Pop-up</button>
-          </div>
-        </div>
-        <div>
-          <button @click="showPopup = !showPopup">Background Image</button>
-          <div class="popup" v-if="showPopup">
-            <ul>
-              <li> 
-                <button @click="back1">Background 1</button>
-              </li>
-              <li> 
-                <button @click="back2">Background 2</button>
-              </li>
-              <li> 
-                <button @click="back3">Background 3</button>
-              </li>
-              <li> 
-                <button @click="back4">Background 4</button>
-              </li>
-              <li> 
-                <button @click="back5">Background 5</button>
-              </li>
-            </ul>
-            <button @click="showPopup = false">Close Pop-up</button>
-          </div>
-        </div>
       </div>
       <KanbanBoard :payload="payload" @addContainer="displayContainerModal = true" />
     </div>
-    <!-- Container Modal -->
-
     <ContainerModal :value="displayContainerModal" @close="displayContainerModal = false" />
   </div>
   <div v-else class="flex h-screen flex-col p-4 bg-img">
     <Login />
   </div>
 </template>
-
-<script>
-  export default {
-    data() {
-      return {
-        backgroundImage: "first",
-        showPopup: false
-      };
-    },
-    methods: {
-      back1() {
-        this.backgroundImage = "first"
-      },
-      back2() {
-        this.backgroundImage = "second"
-      },
-      back3() {
-        this.backgroundImage = "third"
-      },
-      back4() {
-        this.backgroundImage = "forth"
-      },
-      back5() {
-        this.backgroundImage = "fifth"
-      }
-    }
-  };
-</script>
