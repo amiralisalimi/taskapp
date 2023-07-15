@@ -10,6 +10,7 @@ import GithubIcon from '@/components/icons/GithubIcon.vue'
 import Login from '@/components/user/Login.vue'
 import Button from '@/components/base/Button.vue'
 import Dropdown from '@/components/user/Dropdown.vue'
+import DropdownBackground from '@/components/base/DropdownBackground.vue'
 
 const store = useStore()
 const displayContainerModal = ref(false)
@@ -57,8 +58,8 @@ const logout = () => {
 </script>
 
 <template>
-  <div v-if="isLoggedIn()">
-    <div v-if="payload" class="flex h-screen flex-col p-4 bg-img">
+  <div v-if="isLoggedIn()" :class="backgroundImage">
+    <div v-if="payload" class="flex h-screen flex-col p-4">
       <div class="flex justify-between rounded-lg text-white">
         <div>
           <Transition name="fade" mode="out-in">
@@ -90,52 +91,7 @@ const logout = () => {
         <div class="mt-px flex place-items-start justify-center">
           <Dropdown />
         </div>
-        <div>
-          <button @click="showPopup = !showPopup">Background Image</button>
-          <div class="popup" v-if="showPopup">
-            <ul>
-              <li> 
-                <button @click="back1">Background 1</button>
-              </li>
-              <li> 
-                <button @click="back2">Background 2</button>
-              </li>
-              <li> 
-                <button @click="back3">Background 3</button>
-              </li>
-              <li> 
-                <button @click="back4">Background 4</button>
-              </li>
-              <li> 
-                <button @click="back5">Background 5</button>
-              </li>
-            </ul>
-            <button @click="showPopup = false">Close Pop-up</button>
-          </div>
-        </div>
-        <div>
-          <button @click="showPopup = !showPopup">Background Image</button>
-          <div class="popup" v-if="showPopup">
-            <ul>
-              <li> 
-                <button @click="back1">Background 1</button>
-              </li>
-              <li> 
-                <button @click="back2">Background 2</button>
-              </li>
-              <li> 
-                <button @click="back3">Background 3</button>
-              </li>
-              <li> 
-                <button @click="back4">Background 4</button>
-              </li>
-              <li> 
-                <button @click="back5">Background 5</button>
-              </li>
-            </ul>
-            <button @click="showPopup = false">Close Pop-up</button>
-          </div>
-        </div>
+        <DropdownBackground @back1="back1" @back2="back2" @back3="back3" @back4="back4" @back5="back5" />
       </div>
       <KanbanBoard :payload="payload" @addContainer="displayContainerModal = true" />
     </div>
@@ -143,7 +99,7 @@ const logout = () => {
 
     <ContainerModal :value="displayContainerModal" @close="displayContainerModal = false" />
   </div>
-  <div v-else class="flex h-screen flex-col p-4 bg-img">
+  <div v-else class="flex h-screen flex-col p-4" :class="backgroundImage">
     <Login />
   </div>
 </template>
