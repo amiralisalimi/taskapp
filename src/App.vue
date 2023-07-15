@@ -45,10 +45,7 @@ const handleEditTitle = (type) => {
   }
 }
 const isLoggedIn = () => {
-  return store.getters.isAuthenticated
-}
-const logout = () => {
-  store.dispatch('logout')
+  return store.state.isAuthenticated
 }
 </script>
 

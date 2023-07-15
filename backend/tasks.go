@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"log"
 	"net/http"
@@ -91,19 +90,13 @@ func (tm *TaskManager) CreateBoardHandler(w http.ResponseWriter, r *http.Request
 	board := Board{}
 	err := json.NewDecoder(r.Body).Decode(&board)
 	if err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
-		return
+		board.Title = r.Context().Value("title").(string)
+		board.Background = r.Context().Value("background").(string)
 	}
 
-	result, err := tm.db.Exec("INSERT INTO boards (user_id, title, background) VALUES ($1, $2, $3)", userID, board.Title, board.Background)
-	if err != nil {
-		log.Fatal(err)
-	}
+	var id int
+	tm.db.QueryRow("INSERT INTO boards (user_id, title, background) VALUES ($1, $2, $3) RETURNING id", userID, board.Title, board.Background).Scan(&id)
 
-	id, err := result.LastInsertId()
-	if err != nil {
-		log.Fatal(err)
-	}
 	board.ID = int(id)
 	board.UserID = userID
 
@@ -474,26 +467,4 @@ func (tm *TaskManager) checkBoardOwnership(userID int, boardID string) error {
 		return ErrForbidden
 	}
 	return nil
-}
-
-type authContextKey string
-
-const userIDContextKey authContextKey = "userID"
-
-func authMiddleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Check for the presence of an authorization header
-		authHeader := r.Header.Get("Authorization")
-		if authHeader == "" {
-			http.Error(w, "Unauthorized", http.StatusUnauthorized)
-			return
-		}
-
-		// Set the user ID as a value in the request context
-		ctx := r.Context()
-		ctx = context.WithValue(ctx, userIDContextKey, 1)
-
-		// Call the next handler with the updated context
-		next.ServeHTTP(w, r.WithContext(ctx))
-	})
 }

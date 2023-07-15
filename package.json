@@ -1,6 +1,7 @@
 {
   "name": "vite-vue3-tailwind-starter",
   "version": "0.0.0",
+  "proxy": "https://localhost:8000/",
   "scripts": {
     "dev": "vite --host",
     "build": "vite build",
