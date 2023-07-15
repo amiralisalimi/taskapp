@@ -52,9 +52,10 @@ export default {
             stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M10 3L3 9M3 9l7 6M3 9l7-6m7 6h8a2 2 0 012 2v8m-2-10l-7 6m7-6l-7-6" />
-        </svg>
-        <span>Log Out</span>
+          </svg>
+          <span>Log Out</span>
+        </div>
       </div>
     </div>
   </div>
-</div></template>
+</template>

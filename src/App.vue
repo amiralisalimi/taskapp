@@ -9,6 +9,7 @@ import SaveIcon from '@/components/icons/SaveIcon.vue'
 import Login from '@/components/user/Login.vue'
 import Button from '@/components/base/Button.vue'
 import Dropdown from '@/components/user/Dropdown.vue'
+import DropdownBackground from '@/components/user/DropdownBackground.vue'
 
 const store = useStore()
 const displayContainerModal = ref(false)
@@ -50,8 +51,8 @@ const isLoggedIn = () => {
 </script>
 
 <template>
-  <div v-if="isLoggedIn()">
-    <div v-if="payload" class="flex h-screen flex-col p-4 bg-img">
+  <div v-if="isLoggedIn()" :class="backgroundImage">
+    <div v-if="payload" class="flex h-screen flex-col p-4">
       <div class="flex justify-between rounded-lg text-white">
         <div>
           <Transition name="fade" mode="out-in">
@@ -82,13 +83,14 @@ const isLoggedIn = () => {
         </div>
         <div class="mt-px flex place-items-start justify-center">
           <Dropdown />
+          <DropdownBackground @back1="back1" @back2="back2" @back3="back3" @back4="back4" @back5="back5" />
         </div>
       </div>
       <KanbanBoard :payload="payload" @addContainer="displayContainerModal = true" />
     </div>
     <ContainerModal :value="displayContainerModal" @close="displayContainerModal = false" />
   </div>
-  <div v-else class="flex h-screen flex-col p-4 bg-img">
+  <div v-else class="flex h-screen flex-col p-4" :class="backgroundImage">
     <Login />
   </div>
 </template>
