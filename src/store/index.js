@@ -8,10 +8,15 @@ const axiosInstance = axios.create({
   proxy: {
     host: 'localhost',
     port: 3000
-  },
-  // headers: {
-  //   Authorization: "auth"
-  // }
+  }
+});
+
+axiosInstance.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 const taskmanStore = createStore({
@@ -20,10 +25,12 @@ const taskmanStore = createStore({
   },
   plugins: [createPersistedState()],
   state: {
+    token: localStorage.getItem('token'),
     isAuthenticated: false,
     user: null,
     boards: [],
     selectedBoard: null,
+    boardId: null,
     containers: [],
     selectedContainer: null,
     tasks: [],
@@ -35,14 +42,22 @@ const taskmanStore = createStore({
     login(state, user) {
       state.isAuthenticated = true;
       state.user = user;
-      console.log('User logged in')
+      state.token = user.token;
+      localStorage.setItem('token', user.token);
+      console.log('User logged in', state.user, state.token)
     },
     signup(state, user) {
       state.isAuthenticated = true;
       state.user = user;
+      state.token = user.token;
+      localStorage.setItem('token', user.token);
       console.log('User signed up')
+      console.log(user)
+      console.log(user.token)
     },
     logout(state) {
+      localStorage.removeItem('token');
+      state.token = null;
       state.isAuthenticated = false;
       state.user = null;
       state.boards = [];
@@ -56,29 +71,35 @@ const taskmanStore = createStore({
       console.log('User logged out')
     },
     setBoards(state, boards) {
-      state.boards = boards;
+      state.boards = boards ?? [];
     },
     setSelectedBoard(state, boardId) {
       state.selectedBoard = state.boards.find(board => board.id === boardId);
+      state.boardId = boardId
+      console.log(boardId)
     },
     setContainers(state, containers) {
-      state.containers = containers;
+      state.containers = containers ?? [];
     },
-    setSelectedContainer(state, containerId) {
-      state.selectedContainer = state.containers.find(container => container.id === containerId);
-    },
+    // setSelectedContainer(state, containerId) {
+    //   state.selectedContainer = state.containers.find(container => container.id === containerId);
+    // },
     setTasks(state, tasks) {
-      state.tasks = tasks;
+      state.tasks = tasks ?? [];
     },
-    setSelectedTask(state, taskId) {
-      state.selectedTask = state.tasks.find(task => task.id === taskId);
-    },
+    // setSelectedTask(state, taskId) {
+    //   state.selectedTask = state.tasks.find(task => task.id === taskId);
+    // },
     setBackground(state, background) {
       state.background = background;
     },
-    setTheme(state, theme) {
-      state.theme = theme;
-    }
+    // setTheme(state, theme) {
+    //   state.theme = theme;
+    // },
+    setData(state, data) {
+      state = data;
+      axiosInstance.post('/update-user-data', this.getters.taskappData);
+    },
   },
   actions: {
     async login({ commit, dispatch }, { username, password }) {
@@ -114,9 +135,9 @@ const taskmanStore = createStore({
         throw new Error('Logout failed');
       }
     },
-    async createBoard({ state, commit }, { name }) {
+    async createBoard({ state, commit }, { title }) {
       try {
-        const response = await axiosInstance.post('/boards', { name });
+        const response = await axiosInstance.post('/boards', { title });
         const board = response.data;
         commit('setBoards', [...state.boards, board]);
       } catch (error) {
@@ -124,10 +145,10 @@ const taskmanStore = createStore({
         throw new Error('Board creation failed');
       }
     },
-    async updateBoard({ state, commit }, { id, name }) {
+    async updateBoard({ state, commit }, { id, title }) {
       try {
-        await axiosInstance.put(`/boards/${id}`, { name });
-        const updatedBoards = state.boards.map(board => board.id === id ? { ...board, name } : board);
+        await axiosInstance.put(`/boards/${id}`, { title });
+        const updatedBoards = state.boards.map(board => board.id === id ? { ...board, title } : board);
         commit('setBoards', updatedBoards);
       } catch (error) {
         console.error(error);
@@ -150,8 +171,9 @@ const taskmanStore = createStore({
         // Load the user's personalized data from the backend API
         const response = await axiosInstance.get('/user-data');
         const { boards, containers, tasks, background } = response.data;
+        console.log(containers)
         commit('setBoards', boards);
-        // commit('setSelectedBoard', selectedBoard);
+        commit('setSelectedBoard', boards[0].id);
         commit('setContainers', containers);
         // commit('setSelectedContainer', selectedContainer);
         commit('setTasks',tasks);
@@ -166,12 +188,16 @@ const taskmanStore = createStore({
         console.error(error);
         throw new Error('Failed to load user data');
       }
+    },
+    async setData({ commit }, data) {
+      commit('setData', data)
     }
   },
   getters: {
     isAuthenticated: state => state.isAuthenticated,
     user: state => state.user,
-  }
+    taskappData: state => state,
+  },
 });
 
 export default taskmanStore;

@@ -20,9 +20,9 @@ type Board struct {
 }
 
 type Container struct {
-	ID      int    `json:"id"`
-	BoardID int    `json:"board_id"`
-	Title   string `json:"title"`
+	ID      int    `json:"id" db:"id"`
+	BoardID int    `json:"board_id" db:"board_id"`
+	Title   string `json:"title" db:"title"`
 	TaskIDs []int  `json:"task_ids"`
 }
 

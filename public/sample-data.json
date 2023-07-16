@@ -4,30 +4,30 @@
   "containers": [
     {
       "id": 1,
-      "name": "Introduction",
+      "title": "Introduction",
       "is_editing_container": false,
       "is_adding_card": false
     },
     {
       "id": 2,
-      "name": "Todo",
+      "title": "Todo",
       "is_editing_container": false,
       "is_adding_card": false
     }
   ],
-  "cards": [
+  "tasks": [
     {
       "id": 1,
-      "id_container": 1,
+      "container_id": 1,
       "title": "Web Project",
-      "content": "Stack: Vue.js, Tailwind.css",
+      "description": "Stack: Vue.js, Tailwind.css",
       "is_editing_card": false
     },
     {
       "id": 2,
-      "id_container": 1,
+      "container_id": 1,
       "title": "About Project",
-      "content": "This is a task management project",
+      "description": "This is a task management project",
       "is_editing_card": false
     }
   ]

@@ -19,15 +19,14 @@ const state = reactive({
   temp_title: null,
 })
 const payload = computed(() => {
-  return store.getters['taskman/gettaskmanDatas']
+  return store.getters['taskappData']
 })
-const user = store.state.user
 
 onBeforeMount(async () => {
-  const data = store.getters['taskman/gettaskmanDatas']
+  const data = store.getters['taskappData']
   if (!data) {
     await axios.get('/sample-data.json').then(({ data }) => {
-      store.dispatch('taskman/settaskman', data)
+      store.dispatch('setData', data)
     })
   }
 })
@@ -39,7 +38,7 @@ const handleEditTitle = (type) => {
   } else if (type === 'save') {
     state.is_editing_title = false
     payload.value.last_modified = new Date().toLocaleString('fa-IR')
-    store.dispatch('taskman/settaskman', payload.value)
+    store.dispatch('setData', payload.value)
   } else {
     state.is_editing_title = false
     payload.value.title = state.temp_title
@@ -94,3 +93,30 @@ const isLoggedIn = () => {
     <Login />
   </div>
 </template>
+
+<script>
+  export default {
+    data() {
+      return {
+        backgroundImage: "first"
+      };
+    },
+    methods: {
+      back1() {
+        this.backgroundImage = "first"
+      },
+      back2() {
+        this.backgroundImage = "second"
+      },
+      back3() {
+        this.backgroundImage = "third"
+      },
+      back4() {
+        this.backgroundImage = "forth"
+      },
+      back5() {
+        this.backgroundImage = "fifth"
+      }
+    }
+  };
+</script>
